@@ -5,7 +5,7 @@ import vk
 
 
 def start_program():
-    account = input('Введите id аккаунта или ник')
+    account = input('Введите id аккаунта или ник ')
     try:
         vk.params['user_id'] = int(account)
     except ValueError:
@@ -25,5 +25,5 @@ def start_program():
 
 
 if __name__ == '__main__':
-    start_program()
+ start_program()
 

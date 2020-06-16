@@ -2,14 +2,23 @@ import requests
 import time
 from datetime import date, datetime
 import sorting as s
+from urllib.parse import urlencode
 
-token = '73eaea320bdc0d3299faa475c196cfea1c4df9da4c6d291633f9fe8f83c08c4de2a3abf89fbc3ed8a44e1'
+# ID моего приложения = 7361055
+APP_ID = int(input('Введите ID приложения: '))
+AUTH_URL = 'https://oauth.vk.com/authorize'
+AUTH_DATA = {'client_id': APP_ID, 'display': 'page', 'scope': 'friends', 'response_type': 'token'}
+print('Перейдите по ссылке ниже, скопируйте token и вставьте: ')
+print('?'.join((AUTH_URL, urlencode(AUTH_DATA))))
+
+
+TOKEN = input("Введите токен: ")
+
 
 params = {
-    'access_token': token,
+    'access_token': TOKEN,
     'v': 5.101
 }
-
 
 def get_user_friends():
     response = requests.get('https://api.vk.com/method/friends.get', params)
@@ -59,7 +68,7 @@ def search_users(user_info):
         age_to = age + 2
     params['age_from'] = [age_from]
     params['age_to'] = [age_to]
-    params['count'] = [1000]
+    params['count'] = [100]
     params['city'] = [city_id]
     params['sex'] = [sex]
     params['status'] = [1, 6]
@@ -92,7 +101,7 @@ def compare_friends_groups(users_list):
             continue
         finally:
             print('-')
-            time.sleep(0.3)
+            time.sleep(0.5)
     return result
 
 
@@ -105,6 +114,6 @@ def find_top3_photos(top10_users):
         profile_photos = response.json()['response']['items']
         top3 = s.find_top3(profile_photos)
         user['top3_photos'] = top3
-        time.sleep(0.3)
+        time.sleep(0.5)
     return top10_users
 
